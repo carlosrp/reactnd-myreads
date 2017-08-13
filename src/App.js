@@ -12,12 +12,26 @@ class BooksApp extends React.Component {
      * pages, as well as provide a good URL they can bookmark and share.
      */
     showSearchPage: false,
-    books: []
+    myBooks: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((books) => {
-      this.setState({ books })
+      this.setState({ myBooks: books })
+    })
+  }
+
+  updateShelf(book, shelf) {
+    // To try next:
+    //   - pass all books to shelf + shelf name, then filter inside shelf
+    //   - handler in App: find book and change shelf
+    // Update book shelf in state.myBooks
+    // idxBook = this.state.myBooks.find((this.state.myBooks, book.id) => {
+    //
+    // })
+    BooksAPI.update(book, shelf)
+    BooksAPI.getAll().then((books) => {
+      this.setState({ myBooks: books })
     })
   }
 
@@ -54,21 +68,24 @@ class BooksApp extends React.Component {
               <div>
                 <ShelfBooks
                   shelfTitle='Currently Reading'
-                  shelfBooks={this.state.books.filter((book) =>
+                  shelfBooks={this.state.myBooks.filter((book) =>
                     book.shelf === 'currentlyReading'
                   )}
+                  onShelfChange={this.updateShelf}
                 />
                 <ShelfBooks
                   shelfTitle='Want To Read'
-                  shelfBooks={this.state.books.filter((book) =>
+                  shelfBooks={this.state.myBooks.filter((book) =>
                     book.shelf === 'wantToRead'
                   )}
+                  onShelfChange={this.updateShelf}
                 />
                 <ShelfBooks
                   shelfTitle='Read'
-                  shelfBooks={this.state.books.filter((book) =>
+                  shelfBooks={this.state.myBooks.filter((book) =>
                     book.shelf === 'read'
                   )}
+                  onShelfChange={this.updateShelf}
                 />
               </div>
             </div>
