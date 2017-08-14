@@ -5,14 +5,15 @@ import PropTypes from 'prop-types'
 class ShelfBooks extends Component {
 
   static propTypes = {
-    //shelfName: PropTypes.string.isRequired,
+    shelfName: PropTypes.string.isRequired,
     shelfTitle: PropTypes.string.isRequired,
-    shelfBooks: PropTypes.array.isRequired,
+    myBooks: PropTypes.array.isRequired,
     onShelfChange: PropTypes.func.isRequired
   }
 
   render() {
-    const { shelfTitle, shelfBooks, onShelfChange } = this.props
+    const { shelfTitle, shelfName, myBooks, onShelfChange } = this.props
+    const shelfBooks = myBooks.filter((book) => book.shelf === shelfName)
 
     return (
       <div className="bookshelf">

@@ -21,18 +21,16 @@ class BooksApp extends React.Component {
     })
   }
 
-  updateShelf(book, shelf) {
-    // To try next:
-    //   - pass all books to shelf + shelf name, then filter inside shelf
-    //   - handler in App: find book and change shelf
-    // Update book shelf in state.myBooks
-    // idxBook = this.state.myBooks.find((this.state.myBooks, book.id) => {
-    //
-    // })
-    BooksAPI.update(book, shelf)
-    BooksAPI.getAll().then((books) => {
-      this.setState({ myBooks: books })
+  updateShelf = (book, shelf) => {
+    // Find book in list and update shelf
+    const books = this.state.myBooks
+    let idxElem = books.findIndex((elem) => {
+      return elem.id === book.id
     })
+    books[idxElem].shelf = shelf
+    this.setState({myBooks: books})
+    // Update book shelf in backend
+    BooksAPI.update(book, shelf)
   }
 
   render() {
@@ -68,23 +66,20 @@ class BooksApp extends React.Component {
               <div>
                 <ShelfBooks
                   shelfTitle='Currently Reading'
-                  shelfBooks={this.state.myBooks.filter((book) =>
-                    book.shelf === 'currentlyReading'
-                  )}
+                  shelfName='currentlyReading'
+                  myBooks={this.state.myBooks}
                   onShelfChange={this.updateShelf}
                 />
                 <ShelfBooks
                   shelfTitle='Want To Read'
-                  shelfBooks={this.state.myBooks.filter((book) =>
-                    book.shelf === 'wantToRead'
-                  )}
+                  shelfName='wantToRead'
+                  myBooks={this.state.myBooks}
                   onShelfChange={this.updateShelf}
                 />
                 <ShelfBooks
                   shelfTitle='Read'
-                  shelfBooks={this.state.myBooks.filter((book) =>
-                    book.shelf === 'read'
-                  )}
+                  shelfName='read'
+                  myBooks={this.state.myBooks}
                   onShelfChange={this.updateShelf}
                 />
               </div>
