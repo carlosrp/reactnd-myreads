@@ -15,9 +15,9 @@ Web application using React to manage your books in shelves (read, currently rea
 ### Main Shelves view
 
 * 3 Shelves to manage your books:
-** Currently Reading
-** Want To Reading
-** Read
+    * Currently Reading
+    * Want To Reading
+    * Read
 
 * Books are stored in a backend, accessed by an API (https://reactnd-books-api.udacity.com").
 
@@ -31,7 +31,7 @@ Web application using React to manage your books in shelves (read, currently rea
 
 * Search field to type in search terms (results shown dynamically as you type)
 
-* The search shows the books returned from the backend THAT ARE NOT already in any of my shelves
+* The search shows the books returned from the backend **THAT ARE NOT** already in any of my shelves
 
 * Books in the search view have a shelf selector, with 'None' value (since they are not in any shelf)
 
@@ -41,11 +41,11 @@ Web application using React to manage your books in shelves (read, currently rea
 
 ## Possible Deviations from Specification, Possible issues and Future Improvements (?)
 
-* The Search view only shows found books that ARE NOT already in any of my shelves; the specification may require to show also books in my shelves in the search results with the shelf selected (?). I still think that it is useful that the search (which should be to find other books you don't have) shows only other books...
+* The Search view only shows found books **THAT ARE NOT** already in any of my shelves; the specification may require to show also books in my shelves in the search results with the shelf selected (?). I still think that it is useful that the search (which should be to find other books you don't have) shows only other books...
 
 * Search API call: the maxResults parameters seems not to work very well?
 
 * Dynamic number of shelves: it would be nice to be able to add/remove shelves... similar to Goodreads.
 
 
-Carlos Rodriguez, 2017
+Carlos Rodriguez, August 2017
