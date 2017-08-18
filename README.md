@@ -1,64 +1,51 @@
-This is the starter template for the final assessment project for Udacity's React Fundamentals course, developed by [React Training](https://reacttraining.com). The goal of this template is to save you time by providing a static example of the CSS and HTML markup that may be used, but without any of the React code that is needed to complete the project. If you choose to start with this template, your job will be to add interactivity to the app by refactoring the static code in this template.
+# React Nanodegree Project - MyReads: A Book Lending App
 
-Of course, you are free to start this project from scratch if you wish! Just be sure to use [Create React App](https://github.com/facebookincubator/create-react-app) to bootstrap the project.
+Web application using React to manage your books in shelves (read, currently reading and want to read).
 
-## What You're Getting
-```
-+--public/    
- |-- index.html - DO NOT MODIFY
- |-- favicon.ico - React Icon, You may change if you wish.
-+-- src/
- +-- icons/ - Helpful images for your app. Use at your discretion.
-  |-- add.svg
-  |-- arrow-back.svg
-  |-- arrow-drop-down.svg
- |-- App.js - This is the root of your app. Contains static HTML right now.
- |-- App.css - Styles for your app. Feel free to customize this as you desire.
- |-- App.test.js - Used for testing. Provided with Create React App. 
- Testing is encouraged, but not required.
- |-- BooksAPI.js - A JavaScript API for the provided Udacity backend. 
- Instructions for the methods are below.
- |-- index.js - You should not need to modify this file. It is used for DOM rendering only.
- |-- index.css - Global styles. You probably won't need to change anything here.
-|-- .gitignore 
-|-- CONTRIBUTING.MD - Information about contributing to this repo. 
-TL;DR - Fork and clone your own version of this to use it.
-|-- README.MD - This README file.
-|-- SEARCH_TERMS.md - The whitelisted short collection of available search terms 
-for you to use with your app.
-|-- package.json - npm package manager file. It's unlikely that you'll need to modify this.
-```
+## How to run the web application
 
-Remember that good React design practice is to create new JS files for each component and use import/require statements to include them where they are needed.
+* Install npm
+* Clone the code from https://github.com/carlosrp/reactnd-myreads.git
+* Run npm Install
+* Start with npm Start
+* Browse to http://localhost:3000
 
-## Backend Server
+## Application Functionality
 
-To simplify your development process, we've provided a backend server for you to develop against. The provided file [`BooksAPI.js`](src/BooksAPI.js) contains the methods you will need to perform necessary operations on the backend:
+### Main Shelves view
 
-### `getAll()`
-* Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* This collection represents the books currently in the bookshelves in your app.
+* 3 Shelves to manage your books:
+** Currently Reading
+** Want To Reading
+** Read
 
-### `update(book, shelf)`
-* book: `<Object>` containing at minimum an `id` attribute
-* shelf: `<String>` contains one of ["wantToRead", "currentlyReading", "read"]  
-* Returns a Promise which resolves to a JSON object containing the response data of the POST request
+* Books are stored in a backend, accessed by an API (https://reactnd-books-api.udacity.com").
 
-### `search(query, maxResults)`
-* query: `<String>`
-* maxResults: `<Integer>` Due to the nature of the backend server, search results are capped at 20, even if this is set higher.
-* Returns a Promise which resolves to a JSON object containing a collection of book objects.
-* These books do not know which shelf they are on. They are raw results only. You'll need to make sure that books have the correct state while on the search page.
+* The books in each shelf have a button that allows to be moved between shelves or removed ('None'): this is updated without refreshing the screen using React, and also in the backend using the api
 
-## Important
-The backend API uses a fixed set of cached search results and is limited to a particular set of search terms, which can be found in [SEARCH_TERMS.md](SEARCH_TERMS.md). That list of terms are the _only_ terms that will work with the backend, so don't be surprised if your searches for Basket Weaving or Bubble Wrap don't come back with any results. 
+* The shelf selector shows the current book shelf
 
-## create-react-app
+* There is a button at the bottom right to search books: when clicked, it takes you to a different screen where you can find books (possible search terms restricted to list in SEARCH_TERMS.md)
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app). You can find more information on how to perform common tasks [here](https://github.com/facebookincubator/create-react-app/blob/master/packages/react-scripts/template/README.md).
+### Search view
 
-## Contributing
+* Search field to type in search terms (results shown dynamically as you type)
 
-This repository is the starter code for _all_ Udacity students. Therefore, we most likely will not accept pull requests.
+* The search shows the books returned from the backend THAT ARE NOT already in any of my shelves
 
-For details, check out [CONTRIBUTING.md](CONTRIBUTING.md).
+* Books in the search view have a shelf selector, with 'None' value (since they are not in any shelf)
+
+* When selecting selecting one of our shelves in a book found from a search, it will add it immediately disappearing from the list of found books (since it is now in one if my shelves)
+
+* When clicking the back link (on the top left or browser), it takes you to the main view with the new added books shown (also updated in backend via API)
+
+## Possible Deviations from Specification, Possible issues and Future Improvements (?)
+
+* The Search view only shows found books that ARE NOT already in any of my shelves; the specification may require to show also books in my shelves in the search results with the shelf selected (?). I still think that it is useful that the search (which should be to find other books you don't have) shows only other books...
+
+* Search API call: the maxResults parameters seems not to work very well?
+
+* Dynamic number of shelves: it would be nice to be able to add/remove shelves... similar to Goodreads.
+
+
+Carlos Rodriguez, 2017

@@ -1,17 +1,13 @@
 import React from 'react'
+import { Route } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
 import ShelfBooks from './ShelfBooks'
+import SearchBooks from './SearchBooks'
 
 class BooksApp extends React.Component {
   state = {
-    /**
-     * TODO: Instead of using this state variable to keep track of which page
-     * we're on, use the URL in the browser's address bar. This will ensure that
-     * users can use the browser's back and forward buttons to navigate between
-     * pages, as well as provide a good URL they can bookmark and share.
-     */
-    showSearchPage: false,
     myBooks: []
   }
 
@@ -22,42 +18,45 @@ class BooksApp extends React.Component {
   }
 
   updateShelf = (book, shelf) => {
-    // Find book in list and update shelf
+
+    // Find book in list and update or remove from shelf
     const books = this.state.myBooks
     let idxElem = books.findIndex((elem) => {
       return elem.id === book.id
     })
-    books[idxElem].shelf = shelf
+    //console.log('Updating shelf for', book.title, shelf, idxElem)
+    // If book not found (comes from  search), add it to my books;
+    // if found, then just change shelf (or remove if no shelf)
+    if( idxElem === -1 ) {
+      // Add shelf property
+      book['shelf'] = shelf
+      books.push(book)
+    } else {
+      if( shelf !== 'noshelf') {
+        // Move book in my shelves
+        books[idxElem].shelf = shelf
+      } else { // 'noshelf'
+        // Remove from my books
+        books.splice(idxElem, 1)
+      }
+    }
+
+    // Update array of my books
     this.setState({myBooks: books})
+
     // Update book shelf in backend
-    BooksAPI.update(book, shelf)
+    if(shelf !== 'noshelf') {
+      BooksAPI.update(book, shelf)
+    } else {
+      BooksAPI.update(book, 'none')
+    }
+    //this.forceUpdate()
   }
 
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <div className="search-books">
-            <div className="search-books-bar">
-              <a className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</a>
-              <div className="search-books-input-wrapper">
-                {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
-
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                <input type="text" placeholder="Search by title or author"/>
-
-              </div>
-            </div>
-            <div className="search-books-results">
-              <ol className="books-grid"></ol>
-            </div>
-          </div>
-        ) : (
+        <Route path="/" exact render={() => (
           <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
@@ -85,10 +84,16 @@ class BooksApp extends React.Component {
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              <Link to="/search">Add a book</Link>
             </div>
           </div>
-        )}
+        )}/>
+        <Route path="/search" render={() => (
+          <SearchBooks
+            myBooks={this.state.myBooks}
+            onShelfChange={this.updateShelf}
+          />
+        )}/>
       </div>
     )
   }
